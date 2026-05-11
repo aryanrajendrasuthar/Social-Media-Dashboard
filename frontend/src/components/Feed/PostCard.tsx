@@ -46,6 +46,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onDelete, onLikeUpdate }) => 
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState('');
   const [commentCount, setCommentCount] = useState(post.commentsCount);
+  const [shareCount, setShareCount] = useState(post.sharesCount);
   const [loadingComments, setLoadingComments] = useState(false);
   const [likeAnimating, setLikeAnimating] = useState(false);
 
@@ -93,9 +94,15 @@ const PostCard: React.FC<PostCardProps> = ({ post, onDelete, onLikeUpdate }) => 
     }
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     navigator.clipboard.writeText(`${window.location.origin}/post/${post._id}`);
     toast.success('Link copied to clipboard!');
+    try {
+      const { data } = await postsAPI.sharePost(post._id);
+      setShareCount(data.sharesCount);
+    } catch {
+      // share count update is non-critical
+    }
   };
 
   const handleDelete = async () => {
@@ -186,7 +193,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onDelete, onLikeUpdate }) => 
           className="flex items-center gap-2 px-3 py-2 rounded-xl text-gray-500 hover:text-green-400 hover:bg-green-400/10 transition-all duration-200"
         >
           <ShareIcon />
-          <span className="text-sm font-medium">{post.sharesCount}</span>
+          <span className="text-sm font-medium">{shareCount}</span>
         </button>
       </div>
 

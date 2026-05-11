@@ -39,8 +39,10 @@ export const postsAPI = {
     api.get('/posts/feed', { params: cursor ? { cursor } : {} }),
   createPost: (form: FormData) =>
     api.post('/posts', form, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  getPost: (id: string) => api.get(`/posts/${id}`),
   deletePost: (id: string) => api.delete(`/posts/${id}`),
   toggleLike: (id: string) => api.post(`/posts/${id}/like`),
+  sharePost: (id: string) => api.post(`/posts/${id}/share`),
   getComments: (id: string) => api.get(`/posts/${id}/comments`),
   addComment: (id: string, text: string) => api.post(`/posts/${id}/comments`, { text }),
   getTrending: () => api.get('/posts/trending'),

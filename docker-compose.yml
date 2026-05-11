@@ -30,7 +30,7 @@ services:
     container_name: social_backend
     restart: unless-stopped
     ports:
-      - '5000:5000'
+      - '5001:5001'
     env_file:
       - ./backend/.env
     environment:

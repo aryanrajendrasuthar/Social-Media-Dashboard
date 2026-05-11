@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 import Feed from '../components/Feed/Feed';
 import StoryBar from '../components/Feed/StoryBar';
-import { Post } from '../types';
-import { useAuth } from '../context/AuthContext';
+import { MainLayoutContext } from '../components/Layout/MainLayout';
 
 const Home: React.FC = () => {
-  const { user } = useAuth();
-  const [newPost, setNewPost] = useState<Post | null>(null);
+  const { newPost } = useOutletContext<MainLayoutContext>();
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">

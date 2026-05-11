@@ -164,6 +164,34 @@ const addComment = async (req, res) => {
   }
 };
 
+// Share post
+const sharePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+
+    await Post.findByIdAndUpdate(post._id, { $inc: { sharesCount: 1 } });
+
+    if (post.userId.toString() !== req.user._id.toString()) {
+      const notif = await Notification.create({
+        userId: post.userId,
+        type: 'share',
+        fromUserId: req.user._id,
+        postId: post._id,
+      });
+      const io = req.app.get('io');
+      io.to(`user:${post.userId}`).emit('notification:new', {
+        ...notif.toObject(),
+        fromUser: { _id: req.user._id, username: req.user.username, avatarUrl: req.user.avatarUrl },
+      });
+    }
+
+    res.json({ sharesCount: post.sharesCount + 1 });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Get trending hashtags
 const getTrending = async (req, res) => {
   const redis = getRedis();
@@ -212,4 +240,4 @@ const searchPosts = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getFeed, getPost, deletePost, toggleLike, getComments, addComment, getTrending, searchPosts };
+module.exports = { createPost, getFeed, getPost, deletePost, toggleLike, getComments, addComment, sharePost, getTrending, searchPosts };

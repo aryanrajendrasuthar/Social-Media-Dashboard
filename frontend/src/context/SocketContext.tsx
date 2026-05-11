@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 import { Notification } from '../types';
+import { notificationsAPI } from '../services/api';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -20,6 +21,14 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
+
+  // Seed unread count from DB on mount
+  useEffect(() => {
+    if (!token || !user) return;
+    notificationsAPI.getUnreadCount()
+      .then(({ data }) => setUnreadCount(data.count))
+      .catch(() => {});
+  }, [token, user]);
 
   useEffect(() => {
     if (!token || !user) return;

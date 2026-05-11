@@ -94,7 +94,7 @@ const Feed: React.FC<FeedProps> = ({ newPost }) => {
   return (
     <div className="space-y-4">
       {posts.map(post => (
-        <div key={post._id} className="animate-in slide-in-from-bottom-2 duration-300">
+        <div key={post._id}>
           <PostCard post={post} onDelete={handleDelete} />
         </div>
       ))}

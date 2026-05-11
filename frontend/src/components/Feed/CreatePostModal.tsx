@@ -69,7 +69,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ onClose, onPostCreate
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="bg-dark-700 rounded-2xl border border-dark-400 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200">
+      <div className="bg-dark-700 rounded-2xl border border-dark-400 w-full max-w-lg shadow-2xl transition-all duration-200">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-dark-500">
           <h2 className="text-lg font-bold text-white">Create Post</h2>

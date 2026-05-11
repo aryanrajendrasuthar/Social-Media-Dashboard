@@ -9,6 +9,7 @@ import Explore from './pages/Explore';
 import Notifications from './pages/Notifications';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import PostPage from './pages/PostPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -49,6 +50,7 @@ const AppRoutes: React.FC = () => (
       <Route path="notifications" element={<Notifications />} />
       <Route path="profile/:username" element={<Profile />} />
       <Route path="settings" element={<Settings />} />
+      <Route path="post/:id" element={<PostPage />} />
     </Route>
     <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
